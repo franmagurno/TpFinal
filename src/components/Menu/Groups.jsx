@@ -20,6 +20,21 @@ const CustomersComponent = () => {
         "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
       ],
     },
+    {
+        company: "grupo de la costa",
+        website: "catalogapp.io",
+        status: "Customer",
+        about: "vacaciones 2025",
+        description: "Brings all your news into one place",
+        users: 5,
+        licenseUse: 66,
+        images: [
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=1256&q=80",
+          "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+        ],
+      },
     // Otros objetos customer aquí...
   ];
 

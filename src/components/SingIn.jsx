@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Importamos Link
+import { useNavigate, Link } from 'react-router-dom';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -7,13 +7,20 @@ const SignIn = () => {
   const [error, setError] = useState(''); // Para manejar mensajes de error
   const navigate = useNavigate(); // Hook para redireccionar
 
+  // Lista de usuarios permitidos (hardcoded)
+  const users = [
+    { email: 'marcoriccitelli@gmail.com', password: 'Clave1234' },
+    { email: 'tomasmachuca@gmail.com', password: 'Clave1234' },
+    { email: 'francomagurno@gmail.com', password: 'Clave1234' }
+  ];
+
   // Validación simple de email
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Expresión regular para verificar formato de email
     return re.test(String(email).toLowerCase());
   };
 
-  // Función de validación simple
+  // Función de validación de credenciales
   const handleSignIn = (e) => {
     e.preventDefault();
 
@@ -29,7 +36,15 @@ const SignIn = () => {
       return;
     }
 
-    // Si pasa las validaciones, redirigir al menú (simulando autenticación exitosa)
+    // Verificar si el usuario y la contraseña coinciden con los hardcodeados
+    const userFound = users.find(user => user.email === email && user.password === password);
+
+    if (!userFound) {
+      setError('Email o contraseña incorrectos.');
+      return;
+    }
+
+    // Si las credenciales son válidas, limpiar errores y redirigir al menú
     setError(''); // Limpiar errores si todo está bien
     navigate('/menu'); // Redirigir al menú
   };
@@ -82,7 +97,7 @@ const SignIn = () => {
         </form>
 
         <p className="mt-8 text-xs font-light text-center text-gray-400">
-          Don't have an account? <Link to="/signup" className="font-medium text-gray-700 dark:text-gray-200 hover:underline">Create One</Link> {/* Aquí usamos Link */}
+          Don't have an account? <Link to="/signup" className="font-medium text-gray-700 dark:text-gray-200 hover:underline">Create One</Link>
         </p>
       </div>
     </div>
@@ -90,4 +105,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-

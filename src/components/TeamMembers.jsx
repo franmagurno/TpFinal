@@ -46,58 +46,58 @@ const TeamMembersComponent = () => {
 
     return (
         <section className="container px-4 mx-auto">
-            {activeTab === 'members' && (
-                <div className="sm:flex sm:items-center sm:justify-between">
-                    <div>
-                        <div className="flex items-center gap-x-3">
-                            <h2 className="text-lg font-medium text-gray-800 dark:text-black">Miembros</h2>
-                            <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-                                {members.length} miembros
-                            </span>
-                        </div>
-                        <p className="mt-1 text-sm text-gray-800 dark:text-black-300">
-                            Estos son los miembros de tu Grupo.
-                        </p>
-                    </div>
-
+            {/* Título y botones siempre visibles */}
+            <div className="sm:flex sm:items-center sm:justify-between">
+                <div>
                     <div className="flex items-center gap-x-3">
-                        <button
-                            onClick={handleAddMember}
-                            className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="w-5 h-5"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Agregar Miembro</span>
-                        </button>
-
-                        <button
-                            onClick={handleGoToMenu}
-                            className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-gray-600 dark:hover:bg-gray-500 dark:bg-gray-600"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="w-5 h-5"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3A2.25 2.25 0 008.25 5.25V9m-3 0v9.75A2.25 2.25 0 007.5 21h9a2.25 2.25 0 002.25-2.25V9m-12 0h12" />
-                            </svg>
-                            <span>Volver al Menú</span>
-                        </button>
+                        <h2 className="text-lg font-medium text-gray-800 dark:text-black">Miembros</h2>
+                        <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
+                            {members.length} miembros
+                        </span>
                     </div>
+                    <p className="mt-1 text-sm text-gray-800 dark:text-black-300">
+                        Estos son los miembros de tu Grupo.
+                    </p>
                 </div>
-            )}
 
+                <div className="flex items-center gap-x-3">
+                    <button
+                        onClick={handleAddMember}
+                        className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Agregar Miembro</span>
+                    </button>
+
+                    <button
+                        onClick={handleGoToMenu}
+                        className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-gray-600 dark:hover:bg-gray-500 dark:bg-gray-600"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3A2.25 2.25 0 008.25 5.25V9m-3 0v9.75A2.25 2.25 0 007.5 21h9a2.25 2.25 0 002.25-2.25V9m-12 0h12" />
+                        </svg>
+                        <span>Volver al Menú</span>
+                    </button>
+                </div>
+            </div>
+
+            {/* Pestañas */}
             <div className="mt-6 md:flex md:items-center md:justify-between">
                 <div className="flex overflow-x-auto overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700">
                     <button
@@ -123,6 +123,7 @@ const TeamMembersComponent = () => {
                 </div>
             </div>
 
+            {/* Contenido de la pestaña */}
             <div className="mt-6">
                 {activeTab === 'members' ? (
                     <>
@@ -160,37 +161,19 @@ const TeamMembersComponent = () => {
                                             <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                                                 {members.map((member, index) => (
                                                     <tr key={index}>
-                                                        <td className="px-2 sm:px-4 py-4 text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                            <div className="inline-flex items-center gap-x-3">
-                                                                <img
-                                                                    className="object-cover w-10 h-10 rounded-full"
-                                                                    src={member.image}
-                                                                    alt=""
-                                                                />
-                                                                <div className="flex items-center gap-x-2">
-                                                                    <div>
-                                                                        <h2 className="font-medium text-gray-800 dark:text-white ">
-                                                                            {member.name}
-                                                                        </h2>
-                                                                        <p className="text-sm font-normal text-gray-600 dark:text-gray-400">
-                                                                            {member.status}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        <td className="px-2 sm:px-4 py-4 text-sm font-medium text-gray-800 dark:text-white whitespace-nowrap">
+                                                            {member.name}
                                                         </td>
-                                                        <td className="px-2 sm:px-4 py-4 text-sm text-gray-800 dark:text-gray-200">
+                                                        <td className="px-2 sm:px-4 py-4 text-sm text-gray-800 dark:text-white whitespace-nowrap">
                                                             {member.email}
                                                         </td>
-                                                        <td className="px-2 sm:px-4 py-4 text-sm">
-                                                            <div className="flex items-center gap-x-6">
-                                                                <button
-                                                                    onClick={() => handleDelete(index)}
-                                                                    className="text-red-500 transition-colors duration-200 hover:text-red-700 focus:outline-none"
-                                                                >
-                                                                    Eliminar
-                                                                </button>
-                                                            </div>
+                                                        <td className="px-2 sm:px-4 py-4 text-sm whitespace-nowrap">
+                                                            <button
+                                                                className="text-red-500 hover:text-red-700"
+                                                                onClick={() => handleDelete(index)}
+                                                            >
+                                                                Eliminar
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -201,10 +184,10 @@ const TeamMembersComponent = () => {
                             </div>
                         </div>
                     </>
-                ) : activeTab === 'Historial' ? (
-                    <TableWithFooter /> // Componente que representa la tabla de Historial
+                ) : activeTab === 'balance' ? (
+                    <Balance />
                 ) : (
-                    <Balance /> // Componente que representa la tabla de Balance
+                    <TableWithFooter />
                 )}
             </div>
         </section>
@@ -212,5 +195,6 @@ const TeamMembersComponent = () => {
 };
 
 export default TeamMembersComponent;
+
 
 

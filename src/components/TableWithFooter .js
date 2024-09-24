@@ -33,6 +33,13 @@ export const TableWithFooter = () => {
 
   return (
     <div className="container mx-auto p-4">
+      {/* Título y descripción */}
+      <div className="mb-4">
+        <h1 className="text-2xl font-bold text-gray-900">Resumen de Productos</h1>
+        <p className="text-gray-600">Este es un listado de productos comprados con su cantidad y precio total.</p>
+      </div>
+
+      {/* Tabla de productos */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead>
@@ -68,3 +75,4 @@ export const TableWithFooter = () => {
 };
 
 export default TableWithFooter;
+

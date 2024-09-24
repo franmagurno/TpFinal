@@ -11,6 +11,7 @@ import UserProfileComponent from './components/UserProfileComponent';
 import AddMembers from './components/AddMembers'; // Ruta correcta para el componente
 import TableWithFooter from './components/TableWithFooter ';
 import Balance from './components/Balance';
+import Settings from './Pages/settings';
 import './index.css';
 
 function App() {
@@ -47,6 +48,8 @@ function App() {
         <Route path="/historial" element={<TableWithFooter />} />
         {/* Ruta para agregar miembros */}
         <Route path="/balance" element={<Balance />} />
+        {/* Ruta para agregar miembros */}
+        <Route path="/configuraciones" element={<Settings />} />
       </Routes>
     </Router>
   );
