@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Para redirigir al menú
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AddMembers = () => {
-  const [members, setMembers] = useState(['']);
-  const [memberErrors, setMemberErrors] = useState([]); // Para errores de validación de email
-  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentMembers = location.state?.currentMembers || [];
 
-  const navigate = useNavigate(); // Hook para navegación
+  const [newMembers, setNewMembers] = useState([{ name: '', email: '' }]);
+  const [error, setError] = useState('');
 
   // Validar formato de email
   const validateEmail = (email) => {
@@ -14,60 +15,39 @@ const AddMembers = () => {
     return regex.test(email);
   };
 
-  // Añadir nuevo campo de miembro
   const handleAddMember = () => {
-    setMembers(['']); // Restablecer el campo para agregar más miembros después de guardar uno
-    setMemberErrors(['']);
+    setNewMembers([...newMembers, { name: '', email: '' }]);
   };
 
   const handleRemoveMember = (index) => {
-    const updatedMembers = [...members];
-    const updatedErrors = [...memberErrors];
+    const updatedMembers = [...newMembers];
     updatedMembers.splice(index, 1);
-    updatedErrors.splice(index, 1);
-    setMembers(updatedMembers);
-    setMemberErrors(updatedErrors);
+    setNewMembers(updatedMembers);
   };
 
-  const handleMemberChange = (index, value) => {
-    const updatedMembers = [...members];
-    const updatedErrors = [...memberErrors];
-
-    // Validar email en el campo correspondiente
-    if (!validateEmail(value)) {
-      updatedErrors[index] = 'Formato de email inválido';
-    } else {
-      updatedErrors[index] = '';
-    }
-
-    updatedMembers[index] = value;
-    setMembers(updatedMembers);
-    setMemberErrors(updatedErrors);
+  const handleMemberChange = (index, field, value) => {
+    const updatedMembers = [...newMembers];
+    updatedMembers[index][field] = value;
+    setNewMembers(updatedMembers);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validar que todos los correos sean válidos
-    const hasErrors = members.some((member) => !validateEmail(member));
+    // Validar que todos los correos sean válidos y que los nombres no estén vacíos
+    const hasErrors = newMembers.some(
+      (member) => !validateEmail(member.email) || member.name.trim() === ''
+    );
 
     if (hasErrors) {
-      setError('Todos los miembros deben tener un email válido.');
+      setError('Todos los miembros deben tener un nombre y un email válido.');
       return;
     }
 
-    setError('');
-    // Aquí va la lógica de envío de datos (por ejemplo, agregar miembros al grupo)
-    console.log({ members });
-    
-    // Restablecer el campo de miembro
-    setMembers(['']);
-    setMemberErrors(['']);
-    alert("Miembros guardados correctamente");
-  };
-
-  const handleGoBack = () => {
-    navigate('/team-members'); // Navega de vuelta a la página de miembros del equipo
+    // Enviar los miembros agregados junto con los actuales
+    navigate('/team-members', {
+      state: { newMembers: [...currentMembers, ...newMembers] },
+    });
   };
 
   return (
@@ -75,40 +55,38 @@ const AddMembers = () => {
       <h2 className="text-xl font-semibold text-gray-800 mb-4">Agregar Miembros</h2>
       {error && <p className="text-red-500 mb-2 text-sm">{error}</p>}
       <form onSubmit={handleSubmit}>
-        {/* Lista de miembros */}
-        <div className="mb-3">
-          <label className="block text-gray-700 text-sm font-medium mb-1">Miembros (Emails)</label>
-          {members.map((member, index) => (
-            <div key={index} className="flex items-center mb-2">
-              <input
-                type="text"
-                value={member}
-                onChange={(e) => handleMemberChange(index, e.target.value)}
-                className="flex-1 px-2 py-1 border rounded-md text-sm mr-2"
-                placeholder={`Miembro ${index + 1} (Email)`}
-              />
-              <button
-                type="button"
-                onClick={() => handleRemoveMember(index)}
-                className="text-red-500 text-sm"
-              >
-                Eliminar
-              </button>
-              {memberErrors[index] && (
-                <p className="text-red-500 text-xs ml-2">{memberErrors[index]}</p>
-              )}
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={handleAddMember}
-            className="text-blue-500 text-sm mt-2"
-          >
-            Agregar Miembro
-          </button>
-        </div>
-
-        {/* Botón de agregar miembros */}
+        {newMembers.map((member, index) => (
+          <div key={index} className="mb-3">
+            <input
+              type="text"
+              value={member.name}
+              onChange={(e) => handleMemberChange(index, 'name', e.target.value)}
+              className="block w-full px-2 py-1 mb-2 border rounded-md text-sm"
+              placeholder={`Nombre del Miembro ${index + 1}`}
+            />
+            <input
+              type="email"
+              value={member.email}
+              onChange={(e) => handleMemberChange(index, 'email', e.target.value)}
+              className="block w-full px-2 py-1 border rounded-md text-sm"
+              placeholder={`Email del Miembro ${index + 1}`}
+            />
+            <button
+              type="button"
+              onClick={() => handleRemoveMember(index)}
+              className="text-red-500 text-sm mt-2"
+            >
+              Eliminar
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={handleAddMember}
+          className="text-blue-500 text-sm mb-4"
+        >
+          Agregar Miembro
+        </button>
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-1 rounded-md hover:bg-blue-600 transition duration-150 text-sm"
@@ -116,14 +94,6 @@ const AddMembers = () => {
           Guardar Miembros
         </button>
       </form>
-
-      {/* Botón para volver a la página de miembros del equipo */}
-      <button
-        onClick={handleGoBack}
-        className="w-full mt-4 bg-gray-500 text-white py-1 rounded-md hover:bg-gray-600 transition duration-150 text-sm"
-      >
-        Volver a Miembros del Equipo
-      </button>
     </div>
   );
 };

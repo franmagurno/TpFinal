@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Para redirigir al menú
+import { useNavigate } from 'react-router-dom';
 
 const CreateGroup = () => {
   const [groupName, setGroupName] = useState('');
   const [groupDescription, setGroupDescription] = useState('');
   const [members, setMembers] = useState(['']);
   const [error, setError] = useState('');
-  const [memberErrors, setMemberErrors] = useState([]); // Para errores de validación de email
+  const [memberErrors, setMemberErrors] = useState([]);
 
-  const navigate = useNavigate(); // Hook para navegación
+  const navigate = useNavigate();
 
   // Validar formato de email
   const validateEmail = (email) => {
@@ -34,7 +34,6 @@ const CreateGroup = () => {
     const updatedMembers = [...members];
     const updatedErrors = [...memberErrors];
 
-    // Validar email en el campo correspondiente
     if (!validateEmail(value)) {
       updatedErrors[index] = 'Formato de email inválido';
     } else {
@@ -49,7 +48,6 @@ const CreateGroup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validar que todos los correos sean válidos
     const hasErrors = members.some((member, index) => !validateEmail(member));
 
     if (!groupName) {
@@ -63,12 +61,19 @@ const CreateGroup = () => {
     }
 
     setError('');
-    // Aquí va la lógica de envío de datos
-    console.log({ groupName, groupDescription, members });
-  };
 
-  const handleGoBack = () => {
-    navigate('/menu'); // Navega de vuelta al menú
+    const newGroup = {
+      company: groupName,
+      about: groupDescription,
+      users: members.length,
+      images: [], // Puedes agregar imágenes o cualquier otro dato necesario
+    };
+
+    const groups = JSON.parse(localStorage.getItem('groups')) || [];
+    localStorage.setItem('groups', JSON.stringify([...groups, newGroup]));
+
+    // Volver al menú
+    navigate('/menu');
   };
 
   return (
@@ -106,52 +111,33 @@ const CreateGroup = () => {
         </div>
 
         {/* Lista de miembros */}
-        <div className="mb-3">
-          <label className="block text-gray-700 text-sm font-medium mb-1">Miembros (Emails)</label>
-          {members.map((member, index) => (
-            <div key={index} className="flex items-center mb-2">
-              <input
-                type="text"
-                value={member}
-                onChange={(e) => handleMemberChange(index, e.target.value)}
-                className="flex-1 px-2 py-1 border rounded-md text-sm mr-2"
-                placeholder={`Miembro ${index + 1} (Email)`}
-              />
-              <button
-                type="button"
-                onClick={() => handleRemoveMember(index)}
-                className="text-red-500 text-sm"
-              >
-                Eliminar
-              </button>
-              {memberErrors[index] && (
-                <p className="text-red-500 text-xs ml-2">{memberErrors[index]}</p>
-              )}
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={handleAddMember}
-            className="text-blue-500 text-sm mt-2"
-          >
-            Agregar Miembro
-          </button>
-        </div>
+        {members.map((member, index) => (
+          <div key={index} className="flex items-center mb-2">
+            <input
+              type="text"
+              value={member}
+              onChange={(e) => handleMemberChange(index, e.target.value)}
+              className="flex-1 px-2 py-1 border rounded-md text-sm mr-2"
+              placeholder={`Miembro ${index + 1} (Email)`}
+            />
+            <button type="button" onClick={() => handleRemoveMember(index)} className="text-red-500 text-sm">
+              Eliminar
+            </button>
+            {memberErrors[index] && <p className="text-red-500 text-xs ml-2">{memberErrors[index]}</p>}
+          </div>
+        ))}
+        <button type="button" onClick={handleAddMember} className="text-blue-500 text-sm mt-2">
+          Agregar Miembro
+        </button>
 
         {/* Botón de crear grupo */}
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-1 rounded-md hover:bg-blue-600 transition duration-150 text-sm"
-        >
+        <button type="submit" className="w-full bg-blue-500 text-white py-1 rounded-md hover:bg-blue-600 transition duration-150 text-sm">
           Crear Grupo
         </button>
       </form>
 
       {/* Botón para volver al menú */}
-      <button
-        onClick={handleGoBack}
-        className="w-full mt-4 bg-gray-500 text-white py-1 rounded-md hover:bg-gray-600 transition duration-150 text-sm"
-      >
+      <button onClick={() => navigate('/menu')} className="w-full mt-4 bg-gray-500 text-white py-1 rounded-md hover:bg-gray-600 transition duration-150 text-sm">
         Volver al Menú
       </button>
     </div>
