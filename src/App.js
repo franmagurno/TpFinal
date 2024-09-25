@@ -12,6 +12,7 @@ import AddMembers from './components/AddMembers'; // Ruta correcta para el compo
 import TableWithFooter from './components/TableWithFooter ';
 import Balance from './components/Balance';
 import Settings from './Pages/settings';
+import SettleBalanceComponent from './components/SettleBalanceComponent';
 import './index.css';
 
 function App() {
@@ -50,6 +51,8 @@ function App() {
         <Route path="/balance" element={<Balance />} />
         {/* Ruta para agregar miembros */}
         <Route path="/configuraciones" element={<Settings />} />
+        {/* Ruta para agregar miembros */}
+        <Route path="/cerrar-balance" element={< SettleBalanceComponent/>} />
       </Routes>
     </Router>
   );

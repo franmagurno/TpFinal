@@ -17,7 +17,7 @@ const Footer = () => {
               </a>
 
               <p className="max-w-sm mt-2 text-gray-500 dark:text-gray-400">
-                Únete a miles de usuarios y no te pierdas los nuevos tutoriales y tips que ofrecemos.
+              Mantente al día con nuestras últimas funciones para la división de tickets entre grupos.
               </p>
 
               <div className="flex mt-6 -mx-2">
@@ -105,9 +105,7 @@ const Footer = () => {
 
               <div>
                 <h3 className="text-gray-700 uppercase dark:text-white">Contacto</h3>
-                <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
-                  +1 526 654 8965
-                </span>
+
                 <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
                   SlideTicket@gmail.com
                 </span>
