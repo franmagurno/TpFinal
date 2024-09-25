@@ -24,7 +24,6 @@ const products = [
     precio: 79.99,
     ticket: ticketImage,
   },
-
 ];
 
 export const TableWithFooter = () => {

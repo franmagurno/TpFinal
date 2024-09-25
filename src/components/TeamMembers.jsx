@@ -107,7 +107,10 @@ const TeamMembersComponent = () => {
                             <div className="flex justify-between items-center mb-6">
                                 <div className="flex items-center">
                                     <h2 className="text-3xl font-bold text-gray-800 dark:text-black">Miembros</h2>
-                                    <span className="ml-4 text-sm text-gray-600">{members.length} Miembros</span> {/* Etiqueta de cantidad de miembros */}
+                                    {/* Aquí implemento el diseño similar al de la imagen */}
+                                    <span className="ml-4 bg-gray-900 text-blue-400 text-sm font-bold px-2 py-1 rounded-full">
+                                        {members.length} Grupos
+                                    </span>
                                 </div>
                                 <button
                                     onClick={handleAddMember}
@@ -192,4 +195,5 @@ const TeamMembersComponent = () => {
 };
 
 export default TeamMembersComponent;
+
 
