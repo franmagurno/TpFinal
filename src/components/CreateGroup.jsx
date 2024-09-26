@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Importa Link de react-router-dom
+import { useNavigate } from 'react-router-dom'; // Importa el hook useNavigate para la navegación
+import Navbar from './Menu/Navbar';
 
 const CreateGroup = () => {
   const [groupName, setGroupName] = useState('');
@@ -48,7 +49,7 @@ const CreateGroup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const hasErrors = members.some((member, index) => !validateEmail(member));
+    const hasErrors = members.some((member) => !validateEmail(member));
 
     if (!groupName) {
       setError('El nombre del grupo es obligatorio.');
@@ -78,15 +79,8 @@ const CreateGroup = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Menu Navigation */}
-      <header className="bg-white shadow-md">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-2xl font-semibold text-blue-600">SliceTicket</div>
-          <nav className="flex space-x-8">
-            <Link to="/menu" className="text-gray-700 hover:text-blue-500">Menu</Link>
-          </nav>
-        </div>
-      </header>
+      {/* Importa el Navbar */}
+      <Navbar />
 
       <main className="flex flex-grow items-center justify-center">
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full mx-4"> {/* Ajuste del tamaño */}
@@ -158,3 +152,4 @@ const CreateGroup = () => {
 };
 
 export default CreateGroup;
+

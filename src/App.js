@@ -13,6 +13,7 @@ import TableWithFooter from './components/TableWithFooter ';
 import Balance from './components/Balance';
 import Settings from './Pages/settings';
 import SettleBalanceComponent from './components/SettleBalanceComponent';
+import Saldos from './components/Saldos';
 import './index.css';
 
 function App() {
@@ -53,6 +54,8 @@ function App() {
         <Route path="/configuraciones" element={<Settings />} />
         {/* Ruta para agregar miembros */}
         <Route path="/cerrar-balance" element={< SettleBalanceComponent/>} />
+        {/* Ruta para agregar miembros */}
+        <Route path="/saldo" element={< Saldos/>} />
       </Routes>
     </Router>
   );

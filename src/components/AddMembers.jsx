@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Para redirigir al menú
+import Navbar from './Menu/Navbar';
 
 const AddMembers = () => {
   const [members, setMembers] = useState(['']);
@@ -66,59 +67,67 @@ const AddMembers = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-4 mt-6">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">Agregar Miembros</h2>
-      {error && <p className="text-red-500 mb-2 text-sm">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        {/* Lista de miembros */}
-        <div className="mb-3">
-          <label className="block text-gray-700 text-sm font-medium mb-1">Miembros (Emails)</label>
-          {members.map((member, index) => (
-            <div key={index} className="flex items-center mb-2">
-              <input
-                type="text"
-                value={member}
-                onChange={(e) => handleMemberChange(index, e.target.value)}
-                className="flex-1 px-2 py-1 border rounded-md text-sm mr-2"
-                placeholder={`Miembro ${index + 1} (Email)`}
-              />
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* Navbar */}
+      <Navbar />
+
+      {/* Formulario para agregar miembros */}
+      <div className="flex-grow flex items-center justify-center">
+        <div className="w-full max-w-md bg-white shadow-md rounded-lg py-12 px-6"> {/* Se ha reducido el ancho y aumentado el largo */}
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Agregar Miembros</h2>
+          {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
+          <form onSubmit={handleSubmit}>
+            {/* Lista de miembros */}
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-medium mb-2">Miembros (Emails)</label>
+              {members.map((member, index) => (
+                <div key={index} className="flex items-center mb-4">
+                  <input
+                    type="text"
+                    value={member}
+                    onChange={(e) => handleMemberChange(index, e.target.value)}
+                    className="flex-1 px-4 py-2 border rounded-md text-sm mr-2"
+                    placeholder={`Miembro ${index + 1} (Email)`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveMember(index)}
+                    className="text-red-500 text-sm"
+                  >
+                    Eliminar
+                  </button>
+                  {memberErrors[index] && (
+                    <p className="text-red-500 text-xs ml-2">{memberErrors[index]}</p>
+                  )}
+                </div>
+              ))}
               <button
                 type="button"
-                onClick={() => handleRemoveMember(index)}
-                className="text-red-500 text-sm"
+                onClick={handleAddMember}
+                className="text-blue-500 text-sm mt-2"
               >
-                Eliminar
+                Agregar Miembro
               </button>
-              {memberErrors[index] && (
-                <p className="text-red-500 text-xs ml-2">{memberErrors[index]}</p>
-              )}
             </div>
-          ))}
+
+            {/* Botón de agregar miembros */}
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150 text-sm"
+            >
+              Guardar Miembros
+            </button>
+          </form>
+
+          {/* Botón para volver a la página de miembros del equipo */}
           <button
-            type="button"
-            onClick={handleAddMember}
-            className="text-blue-500 text-sm mt-2"
+            onClick={handleGoBack}
+            className="w-full mt-4 bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600 transition duration-150 text-sm"
           >
-            Agregar Miembro
+            Volver a Miembros del Equipo
           </button>
         </div>
-
-        {/* Botón de agregar miembros */}
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-1 rounded-md hover:bg-blue-600 transition duration-150 text-sm"
-        >
-          Guardar Miembros
-        </button>
-      </form>
-
-      {/* Botón para volver a la página de miembros del equipo */}
-      <button
-        onClick={handleGoBack}
-        className="w-full mt-4 bg-gray-500 text-white py-1 rounded-md hover:bg-gray-600 transition duration-150 text-sm"
-      >
-        Volver a Miembros del Equipo
-      </button>
+      </div>
     </div>
   );
 };

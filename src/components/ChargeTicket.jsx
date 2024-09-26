@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Importa Link de react-router-dom
+import Navbar from './Menu/Navbar'; // Importa el Navbar que ya tienes
 
 const TicketForm = () => {
   const [formData, setFormData] = useState({
@@ -42,19 +42,11 @@ const TicketForm = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Menu Navigation */}
-      <header className="bg-white shadow-md">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-2xl font-semibold text-blue-600">SliceTicket</div>
-          <nav className="flex space-x-8">
-            {/* Cambia la etiqueta <a> por <Link> */}
-            <Link to="/menu" className="text-gray-700 hover:text-blue-500">Menu</Link>
-          </nav>
-        </div>
-      </header>
+      {/* Navbar */}
+      <Navbar />
 
       {/* Form Section */}
-      <main className="flex flex-grow items-center justify-center">
+      <main className="flex flex-grow items-center justify-center mt-8">
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full mx-4">
           <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Ingrese su Ticket</h2>
           <form onSubmit={handleSubmit}>
@@ -88,19 +80,19 @@ const TicketForm = () => {
 
             {/* Casa a tu nombre */}
             <div className="mb-4">
-              <label htmlFor="casa" className="block text-sm font-medium text-gray-700 mb-2">Casa a tu nombre:</label>
+              <label htmlFor="grupo" className="block text-sm font-medium text-gray-700 mb-2">Nombre del grupo:</label>
               <select
-                id="casa"
-                name="casa"
+                id="grupo"
+                name="grupo"
                 value={formData.casa}
                 onChange={handleChange}
                 required
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 <option value="" disabled>Seleccione una opción</option>
-                <option value="casa1">Grupo 1</option>
-                <option value="casa2">Grupo 2</option>
-                <option value="casa3">Grupo 3</option>
+                <option value="grupo1">Grupo 1</option>
+                <option value="grupo2">Grupo 2</option>
+                <option value="grupo3">Grupo 3</option>
               </select>
             </div>
 

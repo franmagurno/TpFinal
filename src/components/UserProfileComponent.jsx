@@ -1,25 +1,19 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import Navbar from './Menu/Navbar';
+import bart from '../Img/bart.jpg'
 const UserProfileComponent = () => {
   const [userName, setUserName] = useState('Juan Pérez');
   const [email, setEmail] = useState('juan.perez@example.com');
-  const [profilePicture, setProfilePicture] = useState('https://via.placeholder.com/150');
-  
-  // Estados para manejar el modo de edición
+  const [profilePicture, setProfilePicture] = useState(bart);
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
-  
-  // Estado para manejar la ventana modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteEmail, setDeleteEmail] = useState('');
   const [deletePassword, setDeletePassword] = useState('');
   const [deleteError, setDeleteError] = useState('');
-
-  // Hook para navegación
   const navigate = useNavigate();
 
-  // Función para manejar el cambio de imagen de perfil
   const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -28,24 +22,21 @@ const UserProfileComponent = () => {
     }
   };
 
-  // Función para manejar la confirmación de eliminación de cuenta
   const handleConfirmDelete = () => {
     if (deleteEmail.length > 0 && deletePassword.length > 0) {
       alert('Cuenta eliminada exitosamente');
       setTimeout(() => {
-        navigate('/'); // Redirige a la página de inicio (landing page) después de eliminar la cuenta
+        navigate('/');
       }, 1500);
     } else {
       setDeleteError('Por favor, ingrese un correo y una contraseña.');
     }
   };
 
-  // Función para abrir el modal de confirmación de eliminación
   const handleDeleteAccount = () => {
     setShowDeleteModal(true);
   };
 
-  // Función para cerrar el modal de confirmación
   const handleCloseModal = () => {
     setShowDeleteModal(false);
     setDeleteError('');
@@ -53,34 +44,22 @@ const UserProfileComponent = () => {
     setDeletePassword('');
   };
 
-  // Función para regresar al menú
   const handleGoToMenu = () => {
     navigate('/menu');
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header */}
-      <header className="bg-white shadow-md">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-2xl font-semibold text-blue-600">Slice Ticket</div>
-          <nav className="flex space-x-8">
-            <Link to="/menu" className="text-gray-700 hover:text-blue-500 text-lg">Menu</Link>
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
-      {/* Profile Content */}
-      <main className="flex flex-grow items-center justify-center">
+      <main className="flex flex-grow items-center justify-center mt-8">
         <div className="bg-white shadow-lg rounded-lg p-8 w-full mx-4 max-w-lg">
           <div className="p-4">
-            {/* Título del perfil centrado */}
             <div className="flex justify-center items-center mb-6">
               <h1 className="text-2xl font-bold text-gray-800 text-center">Tu Perfil</h1>
             </div>
 
             <div className="flex flex-col items-center">
-              {/* Foto de perfil */}
               <div className="relative mb-4">
                 <img
                   src={profilePicture}
@@ -115,22 +94,15 @@ const UserProfileComponent = () => {
                 />
               </div>
 
-              {/* Sección del nombre de usuario */}
               <div className="w-full px-4 mb-4">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-medium text-gray-700">Nombre de Usuario</label>
                   {isEditingName ? (
-                    <button
-                      onClick={() => setIsEditingName(false)}
-                      className="text-blue-500 hover:underline text-sm"
-                    >
+                    <button onClick={() => setIsEditingName(false)} className="text-blue-500 hover:underline text-sm">
                       Guardar
                     </button>
                   ) : (
-                    <button
-                      onClick={() => setIsEditingName(true)}
-                      className="text-blue-500 hover:underline text-sm"
-                    >
+                    <button onClick={() => setIsEditingName(true)} className="text-blue-500 hover:underline text-sm">
                       Editar
                     </button>
                   )}
@@ -147,22 +119,15 @@ const UserProfileComponent = () => {
                 )}
               </div>
 
-              {/* Sección del correo electrónico */}
               <div className="w-full px-4 mb-4">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-medium text-gray-700">Correo Electrónico</label>
                   {isEditingEmail ? (
-                    <button
-                      onClick={() => setIsEditingEmail(false)}
-                      className="text-blue-500 hover:underline text-sm"
-                    >
+                    <button onClick={() => setIsEditingEmail(false)} className="text-blue-500 hover:underline text-sm">
                       Guardar
                     </button>
                   ) : (
-                    <button
-                      onClick={() => setIsEditingEmail(true)}
-                      className="text-blue-500 hover:underline text-sm"
-                    >
+                    <button onClick={() => setIsEditingEmail(true)} className="text-blue-500 hover:underline text-sm">
                       Editar
                     </button>
                   )}
@@ -179,18 +144,11 @@ const UserProfileComponent = () => {
                 )}
               </div>
 
-              {/* Botones de eliminar cuenta y regresar al menú */}
               <div className="mt-6 w-full flex justify-around">
-                <button
-                  onClick={handleDeleteAccount}
-                  className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-md hover:bg-red-500 focus:outline-none"
-                >
+                <button onClick={handleDeleteAccount} className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-md hover:bg-red-500 focus:outline-none">
                   Eliminar Cuenta
                 </button>
-                <button
-                  onClick={handleGoToMenu}
-                  className="px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-md hover:bg-gray-500 focus:outline-none"
-                >
+                <button onClick={handleGoToMenu} className="px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-md hover:bg-gray-500 focus:outline-none">
                   Regresar al Menú
                 </button>
               </div>
@@ -199,7 +157,6 @@ const UserProfileComponent = () => {
         </div>
       </main>
 
-      {/* Modal para eliminar cuenta */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
@@ -226,16 +183,10 @@ const UserProfileComponent = () => {
               />
             </div>
             <div className="flex justify-between">
-              <button
-                onClick={handleConfirmDelete}
-                className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-md hover:bg-red-500 focus:outline-none"
-              >
+              <button onClick={handleConfirmDelete} className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-md hover:bg-red-500 focus:outline-none">
                 Confirmar
               </button>
-              <button
-                onClick={handleCloseModal}
-                className="px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-md hover:bg-gray-500 focus:outline-none"
-              >
+              <button onClick={handleCloseModal} className="px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-md hover:bg-gray-500 focus:outline-none">
                 Cancelar
               </button>
             </div>

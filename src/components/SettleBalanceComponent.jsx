@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Importa Link y useNavigate de react-router-dom
+import { useNavigate, Link } from "react-router-dom"; // Importa Link y useNavigate de react-router-dom
 
 const SettleBalanceComponent = () => {
     const members = [
@@ -30,7 +30,6 @@ const SettleBalanceComponent = () => {
             .reduce((acc, division) => acc + parseFloat(division.value || 0), 0);
 
         // Calcular el share de cada miembro (considerando si es "igual" o "en partes")
-        const equalShare = totalPaid / members.length;
         const totalEqualMembers = divisions.filter((division) => division.type === 'equal').length;
         const adjustedEqualShare = (totalPaid - totalCustomParts) / totalEqualMembers;
 
@@ -85,9 +84,9 @@ const SettleBalanceComponent = () => {
         setDivisions(updatedDivisions);
     };
 
-    // Función para volver a la página de team-members
+    // Función para volver a la página de team-members y mostrar el balance
     const handleGoBackToTeamMembers = () => {
-        navigate("/team-members"); // Cambiado para redirigir a la ruta "/team-members"
+        navigate("/team-members", { state: { balanceClosed: true } }); // Envía el estado balanceClosed
     };
 
     return (
@@ -188,7 +187,7 @@ const SettleBalanceComponent = () => {
                     {balanceDetails.length > 0 && (
                         <div className="flex justify-center mt-6">
                             <button
-                                onClick={handleGoBackToTeamMembers} // Cambiado para que redirija a "/team-members"
+                                onClick={handleGoBackToTeamMembers}
                                 className="px-6 py-2 text-white bg-gray-600 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring"
                             >
                                 Volver
@@ -202,5 +201,3 @@ const SettleBalanceComponent = () => {
 };
 
 export default SettleBalanceComponent;
-
-

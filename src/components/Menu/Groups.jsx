@@ -49,7 +49,7 @@ const CustomersComponent = () => {
   };
 
   return (
-    <section className="bg-white min-h-screen flex justify-center items-start md:pl-64">
+    <section className="bg-white min-h-screen flex justify-center items-start md:pl-64 mt-16"> {/* Añadido mt-16 */}
       <div className="container mx-auto px-4 py-10 bg-white">
         <div className="sm:flex sm:items-center sm:justify-between mb-6">
           <div>
@@ -159,6 +159,7 @@ const CustomersComponent = () => {
 };
 
 export default CustomersComponent;
+
 
 
 

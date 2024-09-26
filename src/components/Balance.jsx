@@ -1,38 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importar el hook useNavigate
 
+// Miembros de ejemplo y pagos simulados
 const members = [
   { nombre: "Tomas machuca", email: "tomasmachuca@gmail.com" },
   { nombre: "Marco riccitelli", email: "marcoriccitelli@gmail.com" },
   { nombre: "Franco Magurno", email: "francomagurno@gmail.com" },
-
 ];
 
-// Pagos simulados: quién pagó y cuánto.
 const payments = [
-  { paidBy: 'tomasmachuca@gmail.com', amount: 999 },
-  { paidBy: 'marcoriccitelli@gmail.com', amount: 400 },
-  { paidBy: 'francomagurno@gmail.com', amount: 80 },
-
+  { paidBy: "tomasmachuca@gmail.com", amount: 999 },
+  { paidBy: "marcoriccitelli@gmail.com", amount: 400 },
+  { paidBy: "francomagurno@gmail.com", amount: 80 },
 ];
 
 export const Balance = () => {
   const [balances, setBalances] = useState([]);
-  const navigate = useNavigate(); // Definir el hook para redirigir
 
   // Función para calcular los balances
   const calculateBalances = () => {
     const totalAmount = payments.reduce((acc, payment) => acc + payment.amount, 0);
     const share = totalAmount / members.length; // Cuánto debería pagar cada uno
     const tempBalances = members.map((member) => {
-      // Cuánto pagó el miembro
-      const paidByMember = payments.find((payment) => payment.paidBy === member.email)?.amount || 0;
+      const paidByMember =
+        payments.find((payment) => payment.paidBy === member.email)?.amount || 0;
       const balance = paidByMember - share; // Positivo significa que debe cobrar, negativo que debe pagar
 
       const porPagar = balance < 0 ? Math.abs(balance).toFixed(2) : 0;
       const porCobrar = balance > 0 ? balance.toFixed(2) : 0;
 
-      // Determinar el estado (A Favor o Deuda)
       let estado = "A Favor";
       let estadoClass = "bg-green-200 text-green-700"; // Estilos para A Favor
       if (porPagar > porCobrar) {
@@ -55,10 +50,6 @@ export const Balance = () => {
   useEffect(() => {
     calculateBalances();
   }, []);
-
-  const handleClose = () => {
-    navigate("/cerrar-balance"); // Redirigir a la ruta cerrar-balance
-  };
 
   return (
     <div className="container mx-auto p-4">
@@ -99,16 +90,6 @@ export const Balance = () => {
             ))}
           </tbody>
         </table>
-      </div>
-
-      {/* Botón de cerrar balance */}
-      <div className="mt-6">
-        <button
-          onClick={handleClose} // Llama a la función que redirige a la ruta cerrar-balance
-          className="px-6 py-2 text-white bg-red-600 rounded-md hover:bg-red-500 transition-colors"
-        >
-          Cerrar Balance
-        </button>
       </div>
     </div>
   );
