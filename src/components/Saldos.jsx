@@ -62,9 +62,9 @@ const Saldo = () => {
             <Navbar />
 
             {/* Main content */}
-            <main className="flex-grow p-6 bg-gray-100 mt-16">
-                <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Saldos de {currentUser}</h2>
+            <main className="flex-grow p-4 sm:p-6 bg-gray-100 mt-16">
+                <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white shadow-lg rounded-lg">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Saldos de {currentUser}</h2>
 
                     {/* Mensaje de éxito */}
                     {successMessage && (
@@ -75,7 +75,7 @@ const Saldo = () => {
 
                     {/* Tabs */}
                     <div className="mb-6 border-b border-gray-200">
-                        <nav className="flex space-x-4">
+                        <nav className="flex space-x-4 overflow-x-auto">
                             <button
                                 onClick={() => setActiveTab('lo-que-debo')}
                                 className={`px-4 py-2 text-sm font-medium focus:outline-none ${activeTab === 'lo-que-debo' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600'}`}
@@ -97,13 +97,13 @@ const Saldo = () => {
                             {balances
                                 .filter((balance) => balance.to === currentUser && balance.type === 'debo')
                                 .map((balance, index) => (
-                                    <div key={index} className="bg-red-50 p-4 mb-4 rounded-lg shadow-md flex justify-between items-center">
-                                        <div className="text-gray-800">
+                                    <div key={index} className="bg-red-50 p-4 mb-4 rounded-lg shadow-md flex flex-col sm:flex-row justify-between items-center">
+                                        <div className="text-gray-800 mb-2 sm:mb-0 text-center sm:text-left">
                                             Debes <strong>${balance.amount}</strong> a <strong>{balance.from}</strong>
                                         </div>
                                         <button
                                             onClick={() => handleMarkAsPaid(balance.from)}
-                                            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                                            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition w-full sm:w-auto"
                                         >
                                             Ya Pagué
                                         </button>
@@ -115,20 +115,20 @@ const Saldo = () => {
                             {balances
                                 .filter((balance) => balance.from === currentUser && balance.type === 'meDebes')
                                 .map((balance, index) => (
-                                    <div key={index} className="bg-green-50 p-4 mb-4 rounded-lg shadow-md flex justify-between items-center">
-                                        <div className="text-gray-800">
+                                    <div key={index} className="bg-green-50 p-4 mb-4 rounded-lg shadow-md flex flex-col sm:flex-row justify-between items-center">
+                                        <div className="text-gray-800 mb-2 sm:mb-0 text-center sm:text-left">
                                             <strong>{balance.to}</strong> te debe <strong>${balance.amount}</strong>
                                         </div>
-                                        <div className="flex space-x-2">
+                                        <div className="flex space-y-2 sm:space-y-0 sm:space-x-2 flex-col sm:flex-row w-full sm:w-auto">
                                             <button
                                                 onClick={() => handleConfirmReceivedPayment(balance.to)}
-                                                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+                                                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition w-full"
                                             >
                                                 Ya Me Pagó
                                             </button>
                                             <button
                                                 onClick={() => handleSendReminder(balance.to)}
-                                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition w-full"
                                             >
                                                 Enviar Recordatorio
                                             </button>
@@ -143,7 +143,7 @@ const Saldo = () => {
                 <div className="flex justify-center mt-6">
                     <button
                         onClick={handleGoBack}
-                        className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition"
+                        className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition w-full sm:w-auto"
                     >
                         Volver
                     </button>
@@ -151,20 +151,22 @@ const Saldo = () => {
 
                 {/* Confirmación de pago recibido modal */}
                 {confirmPayment && (
-                    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-                        <div className="bg-white p-6 rounded-lg shadow-lg">
-                            <h3 className="text-xl font-bold mb-4">Confirmar Pago</h3>
-                            <p className="text-gray-700 mb-4">¿Confirmas que has recibido el pago de <strong>{confirmPayment.from}</strong>?</p>
-                            <div className="flex space-x-4">
+                    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center p-4">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-auto">
+                            <h3 className="text-xl font-bold mb-4 text-center">Confirmar Pago</h3>
+                            <p className="text-gray-700 mb-4 text-center">
+                                ¿Confirmas que has recibido el pago de <strong>{confirmPayment.from}</strong>?
+                            </p>
+                            <div className="flex space-x-4 justify-center">
                                 <button
                                     onClick={handleConfirmYes}
-                                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+                                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition w-full sm:w-auto"
                                 >
                                     Sí
                                 </button>
                                 <button
                                     onClick={handleCloseConfirmation}
-                                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition w-full sm:w-auto"
                                 >
                                     No
                                 </button>

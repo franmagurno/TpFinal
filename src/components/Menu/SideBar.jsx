@@ -10,14 +10,24 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Botón de "hamburguesa" para pantallas pequeñas */}
-      <div className="fixed top-4 left-4 z-50 md:hidden">
-        <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
+<div className="fixed top-16 left-4 z-50 md:hidden"> {/* Cambia top-4 a top-12 para bajarlo */}
+  <button onClick={toggleSidebar} className="text-gray-500 focus:outline-none">
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M4 6h16M4 12h16M4 18h16"
+      ></path>
+    </svg>
+  </button>
+</div>
 
       {/* Sidebar */}
       <aside

@@ -64,10 +64,10 @@ const CreateGroup = () => {
     setError('');
 
     const newGroup = {
-      company: groupName,
-      about: groupDescription,
+      name: groupName,
+      description: groupDescription,
       users: members.length,
-      images: [],
+      images: [], // Puedes agregar imágenes si lo deseas
     };
 
     const groups = JSON.parse(localStorage.getItem('groups')) || [];
@@ -79,11 +79,9 @@ const CreateGroup = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Importa el Navbar */}
       <Navbar />
-
       <main className="flex flex-grow items-center justify-center">
-        <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full mx-4"> {/* Ajuste del tamaño */}
+        <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full mx-4">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Crear Grupo</h2>
           {error && <p className="text-red-500 mb-2 text-sm">{error}</p>}
           <form onSubmit={handleSubmit}>
@@ -101,7 +99,6 @@ const CreateGroup = () => {
               />
             </div>
 
-            {/* Descripción del grupo */}
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="groupDescription">
                 Descripción
@@ -115,7 +112,6 @@ const CreateGroup = () => {
               ></textarea>
             </div>
 
-            {/* Lista de miembros */}
             {members.map((member, index) => (
               <div key={index} className="flex items-center mb-2">
                 <input
@@ -135,13 +131,11 @@ const CreateGroup = () => {
               Agregar Miembro
             </button>
 
-            {/* Botón de crear grupo */}
             <button type="submit" className="w-full bg-blue-500 text-white py-1 rounded-md hover:bg-blue-600 transition duration-150 text-sm mt-4">
               Crear Grupo
             </button>
           </form>
 
-          {/* Botón para volver al menú */}
           <button onClick={() => navigate('/menu')} className="w-full mt-4 bg-gray-500 text-white py-1 rounded-md hover:bg-gray-600 transition duration-150 text-sm">
             Volver al Menú
           </button>

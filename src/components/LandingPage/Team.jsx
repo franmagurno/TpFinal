@@ -1,6 +1,7 @@
 import React from "react";
 import cabra from '../../Img/ricci.jpg';
 import magu from '../../Img/magu.jpg';
+import tomas from '../../Img/machuca.jpg'; // Asegúrate de que esta ruta sea correcta para la imagen de Tomas Machuca
 
 const people = [
     {
@@ -10,8 +11,13 @@ const people = [
     },
     { 
         name: 'Franco Magurno',
-        role: 'Co-Founder / CEO',
+        role: 'Co-Founder / COO',
         imageUrl: magu,
+    },
+    { 
+        name: 'Tomas Machuca',
+        role: 'Co-Founder / CEO',
+        imageUrl: tomas,
     }
 ];
 

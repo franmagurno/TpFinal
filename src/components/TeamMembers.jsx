@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Balance from './Balance';
-import TableWithFooter from './TableWithFooter ';
+import Historial from './Historial';
 import Navbar from './Menu/Navbar';
 
 const TeamMembersComponent = () => {
@@ -80,28 +80,32 @@ const TeamMembersComponent = () => {
                 {/* Pestañas */}
                 <div className="mb-6 md:flex md:items-center md:justify-between">
                     <div className="flex overflow-x-auto overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700">
+                        
+                        {/* Botón Miembros */}
                         <button
-                            className={`inline-flex items-center h-10 px-4 -mb-px text-sm text-center ${activeTab === 'members' ? 'text-blue-600 border-blue-500 shadow-lg' : 'text-gray-700 border-transparent'} bg-transparent border-b-2 sm:text-base dark:text-black whitespace-nowrap focus:outline-none`}
-                            onClick={() => setActiveTab('members')}
+                        className={`inline-flex items-center h-10 px-4 -mb-px text-sm text-center ${activeTab === 'members' ? 'text-blue-600 border-blue-500 shadow-lg' : 'text-gray-700 border-transparent'} bg-transparent border-b-2 sm:text-base dark:text-black whitespace-nowrap focus:outline-none hover:bg-gray-100 hover:text-blue-600`}
+                        onClick={() => setActiveTab('members')}
                         >
-                            Miembros
+                        Miembros
                         </button>
 
+                        {/* Botón Historial */}
                         <button
-                            className={`inline-flex items-center h-10 px-4 -mb-px text-sm text-center ${activeTab === 'Historial' ? 'text-blue-600 border-blue-500 shadow-lg' : 'text-gray-700 border-transparent'} bg-transparent border-b-2 sm:text-base dark:text-black whitespace-nowrap focus:outline-none`}
-                            onClick={() => setActiveTab('Historial')}
+                        className={`inline-flex items-center h-10 px-4 -mb-px text-sm text-center ${activeTab === 'Historial' ? 'text-blue-600 border-blue-500 shadow-lg' : 'text-gray-700 border-transparent'} bg-transparent border-b-2 sm:text-base dark:text-black whitespace-nowrap focus:outline-none hover:bg-gray-100 hover:text-blue-600`}
+                        onClick={() => setActiveTab('Historial')}
                         >
-                            Historial
+                        Historial
                         </button>
 
+                        {/* Botón Balance */}
                         <button
-                            className={`inline-flex items-center h-10 px-4 -mb-px text-sm text-center ${activeTab === 'balance' ? 'text-blue-600 border-blue-500 shadow-lg' : 'text-gray-700 border-transparent'} bg-transparent border-b-2 sm:text-base dark:text-black whitespace-nowrap focus:outline-none`}
-                            onClick={() => setActiveTab('balance')}
+                        className={`inline-flex items-center h-10 px-4 -mb-px text-sm text-center ${activeTab === 'balance' ? 'text-blue-600 border-blue-500 shadow-lg' : 'text-gray-700 border-transparent'} bg-transparent border-b-2 sm:text-base dark:text-black whitespace-nowrap focus:outline-none hover:bg-gray-100 hover:text-blue-600`}
+                        onClick={() => setActiveTab('balance')}
                         >
-                            Balance
+                        Balance
                         </button>
                     </div>
-                </div>
+                    </div>
 
                 {/* Contenido de la pestaña */}
                 <div className="mt-6">
@@ -112,7 +116,7 @@ const TeamMembersComponent = () => {
                                 <div className="flex items-center">
                                     <h2 className="text-2xl font-bold text-gray-900 ml-6 mt-2">Miembros</h2> {/* Ajuste de margen izquierdo y superior */}
                                     <span className="ml-4 mt-4 bg-blue-100 text-blue-600 text-xs font-semibold px-2 py-1 rounded-full"> {/* Ajuste de tamaño y posición */}
-                                        {members.length} Grupos
+                                        {members.length} Miembros
                                     </span>
                                 </div>
                                 <button
@@ -186,7 +190,7 @@ const TeamMembersComponent = () => {
                     ) : activeTab === 'Historial' ? (
                         <>
                             {/* Mostrar tabla de historial */}
-                            <TableWithFooter />
+                            <Historial />
                         </>
                     ) : activeTab === 'balance' ? (
                         <>

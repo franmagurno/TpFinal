@@ -3,23 +3,22 @@ import Example from '../components/LandingPage/Team';
 import Testimonials from '../components/LandingPage/Testimonials';
 import Footer from '../components/LandingPage/Footer';
 
-
-
-
 function LandingPage() {
-return (
-    <>
-    <Index/>
-    
-    <div id='example'>
-    <Example />   
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Index />
+      
+      <div id="example" className="flex-grow">
+        <Example />
+      </div>
+
+      <div id="testimonials" className="flex-grow">
+        <Testimonials />
+      </div>
+      
+      <Footer />
     </div>
-    <div id='testimonials'>
-    <Testimonials />   
-    </div>
-    <Footer />
-    </>
-);
+  );
 }
 
 export default LandingPage;

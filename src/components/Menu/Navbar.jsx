@@ -47,12 +47,11 @@ const Navbar = () => {
 
   return (
     <header className="bg-gray-50 shadow-md w-full fixed top-0 z-50">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo o Título */}
-        <div className="text-2xl font-semibold text-blue-600">
-          SliceTicket {/* Puedes reemplazar esto con un logo si lo necesitas */}
-        </div>
-
+  <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    {/* Logo o Título */}
+    <div className="text-2xl font-semibold text-blue-600">
+      SliceTicket {/* Alineado a la izquierda */}
+    </div>
         {/* Menú principal */}
         <nav className="flex space-x-8">
           <Link to="/menu" className="text-2xl font-semibold text-blue-600 hover:text-blue-600">

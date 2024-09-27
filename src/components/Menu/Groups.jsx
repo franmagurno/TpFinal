@@ -1,63 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const CustomersComponent = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [groupToDelete, setGroupToDelete] = useState(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [customers, ] = useState([
-    {
-      name: "Grupo capital",
-      description: "los de futbol",
-      users: 4,
-      images: [
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=1256&q=80",
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-      ],
-    },
-    {
-      name: "Grupo de la Costa",
-      description: "Vacaciones 2025",
-      users: 5,
-      images: [
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=1256&q=80",
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-      ],
-    },
-  ]);
 
-  const navigate = useNavigate(); // Hook de navegación
+  // Inicialización de los grupos con datos hardcodeados
+  const [customers, setCustomers] = useState(() => {
+    const storedGroups = JSON.parse(localStorage.getItem('groups')) || [
+      {
+        name: "Grupo capital",
+        description: "los de futbol",
+        users: 4,
+      },
+      {
+        name: "Grupo de la Costa",
+        description: "Vacaciones 2025",
+        users: 5,
+      },
+    ];
+    return storedGroups;
+  });
 
-  // Función para redirigir a la página de crear grupo
+  const navigate = useNavigate();
+
+  // Guardar grupos en localStorage cuando cambien
+  useEffect(() => {
+    localStorage.setItem('groups', JSON.stringify(customers));
+  }, [customers]);
+
+  // Función para agregar grupo
   const handleAddGroup = () => {
-    navigate('/create-group', { state: { customers } }); // Redirigir a la página de creación de grupo
+    navigate('/create-group');
   };
 
-  // Función para redirigir a la página de Team Members de un grupo específico
+  // Función para redirigir a Team Members
   const handleTeamMembersRedirect = (groupName) => {
     navigate('/team-members', { state: { groupName } });
   };
 
-  // Función para mostrar el modal de confirmación de eliminación
+  // Función para intentar eliminar grupo
   const handleDeleteGroup = (groupName) => {
     setGroupToDelete(groupName);
     setShowDeleteModal(true);
   };
 
-  // Función para confirmar la eliminación
+  // Confirmar eliminación (pero en realidad no eliminamos el grupo)
   const confirmDeleteGroup = () => {
+    // No eliminamos el grupo, solo mostramos la confirmación
     setShowDeleteModal(false);
     setDeleteConfirmation(true);
   };
 
-  // Función para cerrar el mensaje de confirmación
   const closeConfirmation = () => {
     setDeleteConfirmation(false);
     setGroupToDelete(null);
+  };
+
+  // Función para limpiar el localStorage
+  const clearLocalStorage = () => {
+    localStorage.removeItem('groups');
+    setCustomers([]); // Limpiar el estado también
   };
 
   return (
@@ -73,7 +77,6 @@ const CustomersComponent = () => {
             </div>
           </div>
 
-          {/* Botón para agregar grupo */}
           <div className="flex items-center gap-x-3 mt-4 sm:mt-0">
             <button
               onClick={handleAddGroup}
@@ -84,10 +87,17 @@ const CustomersComponent = () => {
               </svg>
               <span>Agregar Grupo</span>
             </button>
-          </div>
-        </div>
 
-        {/* Tabla de grupos */}
+            {/* Botón para limpiar el localStorage *
+            <button
+              onClick={clearLocalStorage}
+              className="flex items-center justify-center w-auto px-4 py-1.5 text-sm tracking-wide text-white transition-colors duration-200 bg-red-500 rounded-lg gap-x-2 hover:bg-red-600 ml-2"
+            >
+              Limpiar Grupos
+            </button>*/}
+          </div>
+        </div> 
+
         <div className="flex flex-col mt-6">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -111,11 +121,12 @@ const CustomersComponent = () => {
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {customers.map((customer, index) => (
-                      <tr key={index}>
-                        <td
-                          className="px-2 py-2 text-xs sm:text-sm font-medium whitespace-nowrap text-blue-500 cursor-pointer hover:underline"
-                          onClick={() => handleTeamMembersRedirect(customer.name)}
-                        >
+                      <tr
+                        key={index}
+                        className="hover:bg-blue-50 cursor-pointer transition-colors duration-200"
+                        onClick={() => handleTeamMembersRedirect(customer.name)} // Redirigir al hacer clic en la fila
+                      >
+                        <td className="px-2 py-2 text-xs sm:text-sm font-medium whitespace-nowrap text-blue-500 hover:text-blue-700 hover:underline">
                           <div>
                             <h2 className="font-medium text-gray-800">{customer.name}</h2>
                           </div>
@@ -127,19 +138,15 @@ const CustomersComponent = () => {
                         </td>
                         <td className="px-2 py-2 text-xs sm:text-sm whitespace-nowrap">
                           <div className="flex items-center">
-                            {customer.images.slice(0, 3).map((img, idx) => (
-                              <img key={idx} className="object-cover w-5 h-5 -mx-1 border-2 border-white rounded-full" src={img} alt={`user-${idx}`} />
-                            ))}
-                            {customer.users > 3 && (
-                              <p className="flex items-center justify-center w-5 h-5 -mx-1 text-xs text-blue-600 bg-blue-100 border-2 border-white rounded-full">
-                                +{customer.users - 3}
-                              </p>
-                            )}
+                            {customer.users} usuarios
                           </div>
                         </td>
                         <td className="px-2 py-2 text-xs sm:text-sm whitespace-nowrap">
                           <button
-                            onClick={() => handleDeleteGroup(customer.name)}
+                            onClick={(e) => {
+                              e.stopPropagation(); // Evitar la redirección al hacer clic en el botón de eliminar
+                              handleDeleteGroup(customer.name);
+                            }}
                             className="px-4 py-1 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600"
                           >
                             Eliminar

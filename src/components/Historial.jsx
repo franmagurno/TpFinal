@@ -27,12 +27,10 @@ const products = [
   },
 ];
 
-export const TableWithFooter = () => {
+export const Historial = () => {
   const [selectedTicket, setSelectedTicket] = useState(null); // Estado para mostrar el ticket seleccionado
   const navigate = useNavigate(); // Hook para navegar
 
-  const totalQuantity = products.reduce((acc, product) => acc + product.cantidad, 0);
-  const totalPrice = products.reduce((acc, product) => acc + product.precio * product.cantidad, 0).toFixed(2);
 
   const handleCloseModal = () => {
     setSelectedTicket(null); // Cierra el modal al hacer clic en la X o fuera de la imagen
@@ -49,7 +47,7 @@ export const TableWithFooter = () => {
         <h1 className="text-2xl font-bold text-gray-900">Resumen de Productos</h1>
         <button
           onClick={handleAddTicket}
-          className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 dark:hover:bg-green-500 dark:bg-green-600"
+          className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:bg-blue-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -106,15 +104,7 @@ export const TableWithFooter = () => {
               </tr>
             ))}
           </tbody>
-          <tfoot className="bg-gray-100">
-            <tr>
-              <td className="p-4 font-semibold text-gray-900">Total</td>
-              <td className="p-4"></td>
-              <td className="p-4 font-semibold text-gray-900">{totalQuantity}</td>
-              <td className="p-4 font-semibold text-gray-900">${totalPrice}</td>
-              <td className="p-4"></td>
-            </tr>
-          </tfoot>
+          
         </table>
       </div>
 
@@ -139,4 +129,4 @@ export const TableWithFooter = () => {
   );
 };
 
-export default TableWithFooter;
+export default Historial;

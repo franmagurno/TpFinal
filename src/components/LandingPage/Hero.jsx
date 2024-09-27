@@ -98,14 +98,11 @@ function Index() {
                             </p>
                         </div>
                         <div className="flex justify-center items-center">
-                        <button 
-    className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-blue-600 transition duration-150 ease-in-out hover:bg-blue-700 lg:text-xl lg:font-bold rounded text-white px-6 sm:px-12 py-3 sm:py-5 text-lg transform hover:scale-105 hover:shadow-lg shadow-md"
->
-    Empezar
-</button>
-
-
-
+                            <button 
+                                onClick={() => navigate('/signup')}  // Redirige a la página de Sign Up
+                                    className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 lg:text-xl lg:font-bold  rounded text-white px-4 sm:px-10 border border-indigo-700 py-2 sm:py-4 text-sm">
+                                    Empezar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -115,3 +112,4 @@ function Index() {
 }
 
 export default Index;
+    

@@ -9,7 +9,7 @@ import CreateGroup from './components/CreateGroup';
 import TeamMembers from './components/TeamMembers';
 import UserProfileComponent from './components/UserProfileComponent';
 import AddMembers from './components/AddMembers'; // Ruta correcta para el componente
-import TableWithFooter from './components/TableWithFooter ';
+import Historial from './components/Historial';
 import Balance from './components/Balance';
 import Settings from './Pages/settings';
 import SettleBalanceComponent from './components/SettleBalanceComponent';
@@ -47,7 +47,7 @@ function App() {
         {/* Ruta para agregar miembros */}
         <Route path="/add-members" element={<AddMembers />} />
         {/* Ruta para agregar miembros */}
-        <Route path="/historial" element={<TableWithFooter />} />
+        <Route path="/historial" element={<Historial />} />
         {/* Ruta para agregar miembros */}
         <Route path="/balance" element={<Balance />} />
         {/* Ruta para agregar miembros */}
