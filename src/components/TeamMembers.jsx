@@ -1,167 +1,250 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // Usar useLocation para recibir el estado de AddMembers
+import { useNavigate, useLocation } from 'react-router-dom';
+import Balance from './Balance';
+import TableWithFooter from './TableWithFooter ';
+import Navbar from './Menu/Navbar';
 
 const TeamMembersComponent = () => {
-  const navigate = useNavigate();
-  const location = useLocation(); // Para obtener los miembros nuevos
+    const [members, setMembers] = useState([
+        {
+            nombre: "Franco Magurno",
+            email: "francomagurno@gmail.com",
+        },
+        {
+            nombre: "Tomas Machuca",
+            email: "tomasmachuca@gmail.com",
+        },
+        {
+            nombre: "Marco Riccitelli",
+            email: "marcoriccitelli@gmail.com",
+        },
+    ]);
 
-  // Estado inicial con los miembros por defecto
-  const [members, setMembers] = useState([
-    {
-      name: 'Arthur Melo',
-      email: 'arthur.melo@example.com',
-      status: 'Active',
-      image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80',
-    },
-    {
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      status: 'Inactive',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80',
-    },
-    {
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      status: 'Active',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=1256&q=80',
-    },
-  ]);
+    const [activeTab, setActiveTab] = useState('members'); // Estado para manejar la pestaña activa
+    const [balanceCalculated, setBalanceCalculated] = useState(false); // Estado para mostrar o no el balance
+    const [showDeleteModal, setShowDeleteModal] = useState(false); // Estado para controlar el modal de eliminación
+    const [memberToDelete, setMemberToDelete] = useState(null); // Estado para saber qué miembro se va a eliminar
+    const navigate = useNavigate(); // Hook de navegación para redirigir
+    const location = useLocation(); // Hook para recibir datos de navegación
 
-  // Este useEffect se ejecuta cuando se navega a la página de TeamMembers
-  useEffect(() => {
-    // Verificamos si hay nuevos miembros enviados desde AddMembers
-    if (location.state?.newMembers) {
-      // Añadimos los nuevos miembros a la lista existente
-      setMembers((prevMembers) => [...prevMembers, ...location.state.newMembers]);
-    }
-  }, [location.state?.newMembers]);
+    // Al montar el componente, agregar los nuevos miembros si existen
+    useEffect(() => {
+        if (location.state && location.state.newMembers) {
+            const uniqueNewMembers = location.state.newMembers.filter(
+                (newMember) => !members.some((member) => member.email === newMember.email)
+            );
+            setMembers((prevMembers) => [...prevMembers, ...uniqueNewMembers]);
+        }
 
-  // Función para eliminar un miembro por su índice
-  const handleDelete = (index) => {
-    const newMembers = members.filter((_, i) => i !== index);
-    setMembers(newMembers);
-  };
+        // Si la navegación viene de SettleBalanceComponent, mostramos la tabla
+        if (location.state && location.state.balanceClosed) {
+            setBalanceCalculated(true); // Mostramos el balance una vez cerrado
+        }
+    }, [location.state, members]);
 
-  // Función para manejar la redirección a la página de agregar miembros
-  const handleAddMember = () => {
-    navigate('/add-members', { state: { currentMembers: members } }); // Pasar los miembros actuales al componente AddMembers
-  };
+    // Función para abrir el modal de confirmación
+    const handleDelete = (index) => {
+        setMemberToDelete(index); // Guardamos el índice del miembro que se va a eliminar
+        setShowDeleteModal(true); // Mostramos el modal
+    };
 
-  // Función para manejar la redirección al menú
-  const handleGoToMenu = () => {
-    navigate('/menu');
-  };
+    // Función para confirmar la eliminación
+    const confirmDelete = () => {
+        const updatedMembers = members.filter((_, i) => i !== memberToDelete);
+        setMembers(updatedMembers);
+        setShowDeleteModal(false); // Cerramos el modal después de eliminar
+    };
 
-  return (
-    <section className="container px-4 mx-auto">
-      {/* Título y botones siempre visibles */}
-      <div className="sm:flex sm:items-center sm:justify-between">
-        <div>
-          <div className="flex items-center gap-x-3">
-            <h2 className="text-lg font-medium text-gray-800 dark:text-black">Miembros</h2>
-            <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-              {members.length} miembros
-            </span>
-          </div>
-          <p className="mt-1 text-sm text-gray-800 dark:text-black-300">
-            Estos son los miembros de tu Grupo.
-          </p>
+    // Función para manejar la redirección a la página de agregar miembros
+    const handleAddMember = () => {
+        navigate('/add-members'); // Redirige a la página de agregar miembros
+    };
+
+    // Redirigir a la página de cerrar balance (settle-balance)
+    const handleSettleBalance = () => {
+        navigate('/cerrar-balance'); // Redirige a SettleBalanceComponent en la ruta /cerrar-balance
+    };
+
+    // Función para redirigir a la página de Saldos
+    const handleViewSaldo = () => {
+        navigate('/saldo'); // Redirige a la ruta /saldo donde está la página de saldos
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-100 flex flex-col">
+            {/* Importar Navbar */}
+            <Navbar />
+
+            {/* Contenido principal */}
+            <section className="container mx-auto px-4 py-6 mt-16">
+                {/* Pestañas */}
+                <div className="mb-6 md:flex md:items-center md:justify-between">
+                    <div className="flex overflow-x-auto overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700">
+                        <button
+                            className={`inline-flex items-center h-10 px-4 -mb-px text-sm text-center ${activeTab === 'members' ? 'text-blue-600 border-blue-500 shadow-lg' : 'text-gray-700 border-transparent'} bg-transparent border-b-2 sm:text-base dark:text-black whitespace-nowrap focus:outline-none`}
+                            onClick={() => setActiveTab('members')}
+                        >
+                            Miembros
+                        </button>
+
+                        <button
+                            className={`inline-flex items-center h-10 px-4 -mb-px text-sm text-center ${activeTab === 'Historial' ? 'text-blue-600 border-blue-500 shadow-lg' : 'text-gray-700 border-transparent'} bg-transparent border-b-2 sm:text-base dark:text-black whitespace-nowrap focus:outline-none`}
+                            onClick={() => setActiveTab('Historial')}
+                        >
+                            Historial
+                        </button>
+
+                        <button
+                            className={`inline-flex items-center h-10 px-4 -mb-px text-sm text-center ${activeTab === 'balance' ? 'text-blue-600 border-blue-500 shadow-lg' : 'text-gray-700 border-transparent'} bg-transparent border-b-2 sm:text-base dark:text-black whitespace-nowrap focus:outline-none`}
+                            onClick={() => setActiveTab('balance')}
+                        >
+                            Balance
+                        </button>
+                    </div>
+                </div>
+
+                {/* Contenido de la pestaña */}
+                <div className="mt-6">
+                    {activeTab === 'members' ? (
+                        <>
+                            {/* Título, subtítulo y botón "Agregar Miembro" en la parte superior derecha */}
+                            <div className="flex justify-between items-center mb-6">
+                                <div className="flex items-center">
+                                    <h2 className="text-2xl font-bold text-gray-900 ml-6 mt-2">Miembros</h2> {/* Ajuste de margen izquierdo y superior */}
+                                    <span className="ml-4 mt-4 bg-blue-100 text-blue-600 text-xs font-semibold px-2 py-1 rounded-full"> {/* Ajuste de tamaño y posición */}
+                                        {members.length} Grupos
+                                    </span>
+                                </div>
+                                <button
+                                    onClick={handleAddMember}
+                                    className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="w-5 h-5"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>Agregar Miembro</span>
+                                </button>
+                            </div>
+
+                            {/* Tabla de miembros */}
+                            <div className="container mx-auto p-4">
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                                        <thead>
+                                            <tr>
+                                                <th className="p-4 text-left text-gray-700 font-semibold">Nombre</th>
+                                                <th className="p-4 text-left text-gray-700 font-semibold">Email</th>
+                                                <th className="p-4 text-left text-gray-700 font-semibold">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {members.map((member, index) => (
+                                                <tr key={index} className="border-t">
+                                                    <td className="p-4 text-gray-900">
+                                                        {member.nombre}
+                                                        {member.nombre === "Tomas Machuca" && (
+                                                            <span className="ml-2 bg-blue-100 text-blue-600 text-xs font-semibold px-2 py-1 rounded-lg">
+                                                                Tú
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                    <td className="p-4 text-gray-600">{member.email}</td>
+                                                    <td className="p-4 text-gray-600">
+                                                        <button
+                                                            className="text-red-500 font-semibold hover:text-red-700 cursor-pointer"
+                                                            onClick={() => handleDelete(index)}
+                                                        >
+                                                            Eliminar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* Botón "Ver Saldo" debajo de la tabla, visible solo si el balance ha sido calculado */}
+                                {balanceCalculated && (
+                                    <div className="flex justify-center mt-6">
+                                        <button
+                                            onClick={handleViewSaldo}
+                                            className="px-6 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
+                                        >
+                                            Ver Saldo
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    ) : activeTab === 'Historial' ? (
+                        <>
+                            {/* Mostrar tabla de historial */}
+                            <TableWithFooter />
+                        </>
+                    ) : activeTab === 'balance' ? (
+                        <>
+                            {/* Cerrar balance o ver balance */}
+                            <div className="flex justify-end mb-4">
+                                {!balanceCalculated ? (
+                                    <button
+                                        onClick={handleSettleBalance}
+                                        className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="1.5"
+                                            stroke="currentColor"
+                                            className="w-5 h-5"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span>Cerrar Balance</span>
+                                    </button>
+                                ) : (
+                                    <Balance />
+                                )}
+                            </div>
+                        </>
+                    ) : null}
+                </div>
+            </section>
+
+            {/* Modal de confirmación de eliminación */}
+            {showDeleteModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                        <h2 className="text-xl font-bold text-gray-800 mb-4">Confirmar Eliminación</h2>
+                        <p className="text-gray-600 mb-6">
+                            ¿Estás seguro de eliminar a {members[memberToDelete].nombre}? Aunque elimines a {members[memberToDelete].nombre}, sus gastos no se eliminarán.
+                        </p>
+                        <div className="flex justify-end">
+                            <button
+                                onClick={() => setShowDeleteModal(false)}
+                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg mr-2"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={confirmDelete}
+                                className="px-4 py-2 bg-red-500 text-white rounded-lg"
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
-
-        <div className="flex items-center gap-x-3">
-          <button
-            onClick={handleAddMember}
-            className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-5 h-5"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>Agregar Miembro</span>
-          </button>
-
-          <button
-            onClick={handleGoToMenu}
-            className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-gray-600 dark:hover:bg-gray-500 dark:bg-gray-600"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-5 h-5"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3A2.25 2.25 0 008.25 5.25V9m-3 0v9.75A2.25 2.25 0 007.5 21h9a2.25 2.25 0 002.25-2.25V9m-12 0h12" />
-            </svg>
-            <span>Volver al Menú</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Tabla de miembros */}
-      <div className="mt-6">
-        <div className="flex flex-col mt-6">
-          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="py-3.5 px-2 sm:px-4 text-xs sm:text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                      >
-                        Nombre
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-2 sm:px-4 py-3.5 text-xs sm:text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                      >
-                        Email
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-2 sm:px-4 py-3.5 text-xs sm:text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                      >
-                        Acción
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    {members.map((member, index) => (
-                      <tr key={index}>
-                        <td className="px-2 sm:px-4 py-4 text-sm font-medium text-gray-800 dark:text-white whitespace-nowrap">
-                          {member.name}
-                        </td>
-                        <td className="px-2 sm:px-4 py-4 text-sm text-gray-800 dark:text-white whitespace-nowrap">
-                          {member.email}
-                        </td>
-                        <td className="px-2 sm:px-4 py-4 text-sm whitespace-nowrap">
-                          <button
-                            className="text-red-500 hover:text-red-700"
-                            onClick={() => handleDelete(index)}
-                          >
-                            Eliminar
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+    );
 };
 
 export default TeamMembersComponent;

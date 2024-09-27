@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 const ResetPasswordModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
-    currentPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
@@ -32,20 +31,6 @@ const ResetPasswordModal = ({ onClose }) => {
       <div className="bg-white rounded-lg p-6 shadow-lg max-w-lg w-full">
         <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Restablecer Contraseña</h2>
         <form onSubmit={handleSubmit}>
-          {/* Contraseña Actual */}
-          <div className="mb-4">
-            <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-2">Contraseña Actual</label>
-            <input
-              type="password"
-              id="currentPassword"
-              name="currentPassword"
-              value={formData.currentPassword}
-              onChange={handleChange}
-              required
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-
           {/* Nueva Contraseña */}
           <div className="mb-4">
             <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-2">Nueva Contraseña</label>

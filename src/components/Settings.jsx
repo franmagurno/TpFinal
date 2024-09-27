@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import ResetPasswordModal from './ResetPasswordModal.js'; // Importamos el modal para restablecer la contraseña
+import ResetPasswordModal from './ResetPasswordModal.jsx'; // Importamos el modal para restablecer la contraseña
 import { useNavigate } from 'react-router-dom'; // Para navegar de vuelta al menú
+import Navbar from './Menu/Navbar'; // Importamos el Navbar global
 
 const AccountSettings = () => {
   const [username, setUsername] = useState('TuNombre'); // Nombre predeterminado
@@ -28,20 +29,14 @@ const AccountSettings = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header */}
-      <header className="bg-white shadow-md">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-2xl font-semibold text-blue-600">
-            Configuración de la Cuenta
-          </div>
-        </div>
-      </header>
+      {/* Importa el Navbar global */}
+      <Navbar />
 
       {/* Form Section */}
-      <main className="flex flex-grow items-center justify-center">
+      <main className="flex flex-grow items-center justify-center mt-8">
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full mx-4">
           <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">
-            Bienvenido, {username}
+            Configuraciones
           </h2>
 
           {/* Sección del nombre de usuario */}
@@ -135,4 +130,3 @@ const AccountSettings = () => {
 };
 
 export default AccountSettings;
-

@@ -58,7 +58,7 @@ const SignIn = () => {
 
         <form className="mt-6" onSubmit={handleSignIn}>
           <div>
-            <label htmlFor="email" className="block text-sm text-gray-800 dark:text-gray-200">Email</label>
+            <label htmlFor="email" className="block text-sm text-gray-800 dark:text-gray-200">Mail</label>
             <input
               type="email"
               id="email"
@@ -69,7 +69,7 @@ const SignIn = () => {
           </div>
 
           <div className="mt-4">
-            <label htmlFor="password" className="block text-sm text-gray-800 dark:text-gray-200">Password</label>
+            <label htmlFor="password" className="block text-sm text-gray-800 dark:text-gray-200">Contraseña</label>
             <input
               type="password"
               id="password"
@@ -91,13 +91,13 @@ const SignIn = () => {
               type="submit"
               className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
             >
-              Sign In
+              iniciar Sesión
             </button>
           </div>
         </form>
 
         <p className="mt-8 text-xs font-light text-center text-gray-400">
-          Don't have an account? <Link to="/signup" className="font-medium text-gray-700 dark:text-gray-200 hover:underline">Create One</Link>
+          Aun no tienes cuenta? <Link to="/signup" className="font-medium text-gray-700 dark:text-gray-200 hover:underline">Create una</Link>
         </p>
       </div>
     </div>
