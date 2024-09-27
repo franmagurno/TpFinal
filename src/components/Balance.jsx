@@ -77,7 +77,14 @@ export const Balance = () => {
           <tbody>
             {balances.map((balance, index) => (
               <tr key={index} className="border-t">
-                <td className="p-4 text-gray-900">{balance.nombre}</td>
+                <td className="p-4 text-gray-900">
+                  {balance.nombre}
+                  {balance.nombre === "Tomas machuca" && (
+                    <span className="ml-2 bg-blue-100 text-blue-600 text-xs font-semibold px-2 py-1 rounded-lg">
+                      Tú
+                    </span>
+                  )}
+                </td>
                 <td className="p-4 text-gray-600">{balance.email}</td>
                 <td className="p-4 text-gray-600">{balance.porPagar}</td>
                 <td className="p-4 text-gray-600">{balance.porCobrar}</td>

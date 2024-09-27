@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaTicketAlt } from "react-icons/fa"; // Importar el ícono de ticket
 import ticketImage from '../Img/ticket.jpg'; // Asegúrate de que esta ruta esté bien
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate para redirigir
 
 const products = [
   {
@@ -28,6 +29,7 @@ const products = [
 
 export const TableWithFooter = () => {
   const [selectedTicket, setSelectedTicket] = useState(null); // Estado para mostrar el ticket seleccionado
+  const navigate = useNavigate(); // Hook para navegar
 
   const totalQuantity = products.reduce((acc, product) => acc + product.cantidad, 0);
   const totalPrice = products.reduce((acc, product) => acc + product.precio * product.cantidad, 0).toFixed(2);
@@ -36,15 +38,37 @@ export const TableWithFooter = () => {
     setSelectedTicket(null); // Cierra el modal al hacer clic en la X o fuera de la imagen
   };
 
+  const handleAddTicket = () => {
+    navigate('/charge-ticket'); // Redirige a la página de agregar ticket
+  };
+
   return (
     <div className="container mx-auto p-4">
-      {/* Título y descripción */}
-      <div className="mb-4">
+      {/* Título y botón agregar ticket */}
+      <div className="mb-2 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Resumen de Productos</h1>
-        <p className="text-gray-600">
-          Este es un listado de productos comprados con su cantidad, precio total y foto del ticket correspondiente.
-        </p>
+        <button
+          onClick={handleAddTicket}
+          className="flex items-center justify-center w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 dark:hover:bg-green-500 dark:bg-green-600"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-5 h-5"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Agregar Ticket</span>
+        </button>
       </div>
+
+      {/* Subtítulo debajo del título */}
+      <p className="text-gray-600 mb-4">
+        Este es un listado de productos comprados con su cantidad, precio total y foto del ticket correspondiente.
+      </p>
 
       {/* Tabla de productos */}
       <div className="overflow-x-auto">
@@ -61,12 +85,20 @@ export const TableWithFooter = () => {
           <tbody>
             {products.map((product, index) => (
               <tr key={index} className="border-t">
-                <td className="p-4 text-gray-900">{product.nombre}</td>
+                <td className="p-4 text-gray-900">
+                  {product.nombre}
+                  {product.nombre === "Tomas machuca" && (
+                    <span className="ml-2 bg-blue-100 text-blue-600 text-xs font-semibold px-2 py-1 rounded-lg">
+                      Tú
+                    </span>
+                  )}
+                </td>
                 <td className="p-4 text-gray-600">{product.producto}</td>
                 <td className="p-4 text-gray-600">{product.cantidad}</td>
                 <td className="p-4 text-gray-600">${product.precio.toFixed(2)}</td>
                 <td className="p-4 text-gray-600">
                   <FaTicketAlt
+                    title=" Mostrar Ticket" // Tooltip que aparece al pasar el mouse
                     className="text-blue-500 cursor-pointer w-6 h-6"
                     onClick={() => setSelectedTicket(product.ticket)} // Al hacer clic en el icono, muestra la imagen del ticket
                   />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa el hook useNavigate para la navegación
+import { useNavigate } from 'react-router-dom';
 import Navbar from './Menu/Navbar';
 
 const CreateGroup = () => {
@@ -67,7 +67,7 @@ const CreateGroup = () => {
       company: groupName,
       about: groupDescription,
       users: members.length,
-      images: [], // Puedes agregar imágenes o cualquier otro dato necesario
+      images: [],
     };
 
     const groups = JSON.parse(localStorage.getItem('groups')) || [];
@@ -152,4 +152,3 @@ const CreateGroup = () => {
 };
 
 export default CreateGroup;
-
